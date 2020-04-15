@@ -1,0 +1,7 @@
+{
+  "name": "Time Repositorium",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
