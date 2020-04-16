@@ -1,5 +1,4 @@
-<ion-grid>
-  
+<ion-grid id="main-table-container">
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
@@ -39,5 +38,4 @@
   
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
-
 </ion-grid>
