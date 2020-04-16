@@ -6,12 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { MainTableComponent } from './components/main-table/main-table.component';
 import { HomeRoutingModule } from './home-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedModule,
     HomeRoutingModule
   ],
   declarations: [
