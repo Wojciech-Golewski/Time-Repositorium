@@ -11,6 +11,11 @@ export interface IncomingDataOfAvailableColumns {
   supportLevel: string;
 }
 
+export interface ColumnType {
+  propertyName: string;
+  value: string;
+}
+
 const CUSTOMERS: string[] = [
   'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
 ];
@@ -38,8 +43,55 @@ const SUPPORTLEVELS: string[] = [
 })
 export class MainTableComponent implements OnInit {
 
-  availableColumns: string[] = ['customer', 'project', 'country', 'supportLevel'];
-  daysOfTheWeek: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  availableColumns: ColumnType[] = [
+    {
+      propertyName: 'customer',
+      value: 'Customer'
+    },
+    {
+      propertyName: 'project',
+      value: 'Project'
+    },
+    {
+      propertyName: 'country',
+      value: 'Country'
+    },
+    {
+      propertyName: 'supportLevel',
+      value: 'Support Level'
+    }
+  ];
+  columnsPropertiesForRows: string[] = [];
+  daysOfTheWeek: ColumnType[] = [
+    {
+      propertyName: 'monday',
+      value: 'Monday'
+    },
+    {
+      propertyName: 'tuesday',
+      value: 'Tuesday'
+    },
+    {
+      propertyName: 'wednesday',
+      value: 'Wednesday'
+    },
+    {
+      propertyName: 'thursday',
+      value: 'Thursday'
+    },
+    {
+      propertyName: 'friday',
+      value: 'Friday'
+    },
+    {
+      propertyName: 'saturday',
+      value: 'Saturday'
+    },
+    {
+      propertyName: 'sunday',
+      value: 'Sunday'
+    }
+  ];
   dataSource: MatTableDataSource<IncomingDataOfAvailableColumns>;
   expandedElement: IncomingDataOfAvailableColumns | null;
 
@@ -47,7 +99,10 @@ export class MainTableComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor() {
-    // this.availableColumns.concat(this.daysOfTheWeek);
+    this.availableColumns = this.availableColumns.concat(this.daysOfTheWeek);
+    this.availableColumns.forEach(columnProperty => {
+      this.columnsPropertiesForRows.push(columnProperty.propertyName);
+    })
 
     // Create 100 users
     const randomTimeEntries = Array.from({length: 100}, () => createNewRandomTimeEntry());
