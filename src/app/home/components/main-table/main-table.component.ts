@@ -3,21 +3,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
+export interface IncomingDataOfAvailableColumns {
+  customer: string;
+  project: string;
+  country: string;
+  supportLevel: string;
 }
 
-/** Constants used to fill up our data base. */
-const COLORS: string[] = [
-  'maroon', 'red', 'orange', 'yellow', 'olive', 'green', 'purple', 'fuchsia', 'lime', 'teal',
-  'aqua', 'blue', 'navy', 'black', 'gray'
+const CUSTOMERS: string[] = [
+  'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
 ];
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
+const PROJECTS: string[] = [
+  'Virtual Reactor', 'Tokamak', 'Staropolis-5', 'Model 3', 'Quantum Power ZX10'
+];
+const COUNTRIES: string[] = [
+  'Uganda', 'Wakanda', 'Yemen', 'Oman', 'Chile', 'Iceland', 'Greenland'
+];
+const SUPPORTLEVELS: string[] = [
+  'Level 1', 'Level 2', 'COBOL level'
 ];
 
 @Component({
@@ -27,18 +30,21 @@ const NAMES: string[] = [
 })
 export class MainTableComponent implements OnInit {
 
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
+  availableColumns: string[] = ['customer', 'project', 'country', 'supportLevel'];
+  daysOfTheWeek: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  dataSource: MatTableDataSource<IncomingDataOfAvailableColumns>;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor() {
+    this.availableColumns.concat(this.daysOfTheWeek);
+
     // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    const randomTimeEntries = Array.from({length: 100}, () => createNewRandomTimeEntry());
 
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
+    this.dataSource = new MatTableDataSource(randomTimeEntries);
   }
 
   ngOnInit() {
@@ -57,16 +63,11 @@ export class MainTableComponent implements OnInit {
 
 }
 
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-
+function createNewRandomTimeEntry(): IncomingDataOfAvailableColumns {
   return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
+    customer: CUSTOMERS[Math.round(Math.random() * (CUSTOMERS.length - 1))],
+    project: PROJECTS[Math.round(Math.random() * (PROJECTS.length - 1))],
+    country: COUNTRIES[Math.round(Math.random() * (COUNTRIES.length - 1))],
+    supportLevel: SUPPORTLEVELS[Math.round(Math.random() * (SUPPORTLEVELS.length - 1))]
   };
-  
 }
