@@ -5,31 +5,14 @@
   </mat-form-field>
   
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
-  
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
-        <td mat-cell *matCellDef="let row"> {{row.customer}} </td>
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of availableColumns">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+        <td mat-cell *matCellDef="let element">{{element[column]}}</td>
       </ng-container>
-  
-      <ng-container matColumnDef="project">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Project </th>
-        <td mat-cell *matCellDef="let row"> {{row.project}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="country">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Country </th>
-        <td mat-cell *matCellDef="let row"> {{row.country}} </td>
-      </ng-container>
-  
-      <ng-container matColumnDef="supportLevel">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Support Level </th>
-        <td mat-cell *matCellDef="let row"> {{row.supportLevel}} </td>
-      </ng-container>
-  
+      
       <tr mat-header-row *matHeaderRowDef="availableColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: availableColumns;">
-      </tr>
+      <tr mat-row *matRowDef="let element; columns: availableColumns"></tr>
     </table>
   
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
