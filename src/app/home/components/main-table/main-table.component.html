@@ -3,18 +3,35 @@
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia">
   </mat-form-field>
-  
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+  <div>
+    <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows class="mat-elevation-z8">
       <ng-container matColumnDef="{{column}}" *ngFor="let column of availableColumns">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</th>
         <td mat-cell *matCellDef="let element">{{element[column]}}</td>
       </ng-container>
-      
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="availableColumns.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="example-element-diagram">
+              <div class="example-element-position"> {{element.customer}} </div>
+              <div class="example-element-name"> {{element.country}} </div>
+              <div class="example-element-weight"> {{element.supportLevel}} </div>
+            </div>
+            <div class="example-element-description">
+              {{element.project}}
+              <span class="example-element-description-attribution"> -- Wikipedia </span>
+            </div>
+          </div>
+        </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="availableColumns"></tr>
-      <tr mat-row *matRowDef="let element; columns: availableColumns"></tr>
+      <tr mat-row *matRowDef="let element; columns: availableColumns"
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
     </table>
-  
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
   </div>
 </ion-grid>

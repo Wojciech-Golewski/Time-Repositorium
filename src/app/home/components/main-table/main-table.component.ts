@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 export interface IncomingDataOfAvailableColumns {
   customer: string;
@@ -27,18 +28,26 @@ const SUPPORTLEVELS: string[] = [
   selector: 'app-main-table',
   templateUrl: './main-table.component.html',
   styleUrls: ['./main-table.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class MainTableComponent implements OnInit {
 
   availableColumns: string[] = ['customer', 'project', 'country', 'supportLevel'];
   daysOfTheWeek: string[] = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   dataSource: MatTableDataSource<IncomingDataOfAvailableColumns>;
+  expandedElement: IncomingDataOfAvailableColumns | null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor() {
-    this.availableColumns.concat(this.daysOfTheWeek);
+    // this.availableColumns.concat(this.daysOfTheWeek);
 
     // Create 100 users
     const randomTimeEntries = Array.from({length: 100}, () => createNewRandomTimeEntry());
