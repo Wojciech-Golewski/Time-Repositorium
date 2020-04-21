@@ -6,6 +6,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { MainTableService } from '../../services/main-table.service';
 import { ColumnType } from '../../models/column-type.model';
 import { AvailableColumns } from '../../models/available-columns.model';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-main-table',
@@ -42,20 +43,30 @@ export class MainTableComponent implements OnInit {
         this.availableColumns.forEach(columnProperty => {
           this.columnsPropertiesForRows.push(columnProperty.propertyName);
         })
-        console.log('availableColumns :', data);
     });
 
     this.mainTableService.getDaysOfTheWeek()
       .subscribe(data => {
         this.daysOfTheWeek = data;
-        console.log('daysOfTheWeek :', data);
     });
 
     this.mainTableService.getMainTableData()
       .subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
-        console.log('dataSource :', data);
     });
+
+    const availableColumns = this.mainTableService.getMainColumns();
+    const daysOfTheWeek = this.mainTableService.getDaysOfTheWeek();
+    const mainData = this.mainTableService.getMainTableData();
+
+    forkJoin(
+      availableColumns,
+      daysOfTheWeek,
+      mainData
+    ).subscribe(result => {
+      console.log('result from forkJoin :', result);
+      // TODO: do a model for accumulated data and assign it properllu
+    })
 
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
