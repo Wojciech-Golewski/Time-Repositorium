@@ -3,8 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { IncomingDataOfAvailableColumns, MainTableService } from '../../services/main-table.service';
+import { MainTableService } from '../../services/main-table.service';
 import { ColumnType } from '../../models/column-type';
+import { AvailableColumns } from '../../models/available-columns.model';
 
 @Component({
   selector: 'app-main-table',
@@ -23,8 +24,8 @@ export class MainTableComponent implements OnInit {
   availableColumns: ColumnType[];
   columnsPropertiesForRows: string[] = [];
   daysOfTheWeek: ColumnType[];
-  dataSource: MatTableDataSource<IncomingDataOfAvailableColumns>;
-  expandedElement: IncomingDataOfAvailableColumns | null;
+  dataSource: MatTableDataSource<AvailableColumns>;
+  expandedElement: AvailableColumns | null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;

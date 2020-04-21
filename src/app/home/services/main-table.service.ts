@@ -2,14 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
 import { ColumnType } from '../models/column-type';
-
-
-export interface IncomingDataOfAvailableColumns {
-  customer: string;
-  project: string;
-  country: string;
-  supportLevel: string;
-}
+import { AvailableColumns } from '../models/available-columns.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +61,7 @@ export class MainTableService {
 
   constructor() { }
 
-  getMainTableData(): Observable<IncomingDataOfAvailableColumns[]> {
+  getMainTableData(): Observable<AvailableColumns[]> {
     return of(Array.from({length: 100}, () => this.createNewRandomTimeEntry()));
   }
 
@@ -80,7 +73,7 @@ export class MainTableService {
     return of(this.daysOfTheWeek);
   }
 
-  createNewRandomTimeEntry(): IncomingDataOfAvailableColumns {
+  createNewRandomTimeEntry(): AvailableColumns {
     return {
       customer: CUSTOMERS[Math.round(Math.random() * (CUSTOMERS.length - 1))],
       project: PROJECTS[Math.round(Math.random() * (PROJECTS.length - 1))],
