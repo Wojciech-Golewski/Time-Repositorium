@@ -36,7 +36,7 @@ export class MainTableComponent implements OnInit {
 
   ngOnInit() {
 
-    this.mainTableService.getMainRows()
+    this.mainTableService.getMainColumns()
       .subscribe(data => {
         this.availableColumns = data;
         this.availableColumns.forEach(columnProperty => {
