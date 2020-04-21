@@ -3,31 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-
-export interface IncomingDataOfAvailableColumns {
-  customer: string;
-  project: string;
-  country: string;
-  supportLevel: string;
-}
-
-export interface ColumnType {
-  propertyName: string;
-  value: string;
-}
-
-const CUSTOMERS: string[] = [
-  'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
-];
-const PROJECTS: string[] = [
-  'Virtual Reactor', 'Tokamak', 'Staropolis-5', 'Model 3', 'Quantum Power ZX10'
-];
-const COUNTRIES: string[] = [
-  'Uganda', 'Wakanda', 'Yemen', 'Oman', 'Chile', 'Iceland', 'Greenland'
-];
-const SUPPORTLEVELS: string[] = [
-  'Level 1', 'Level 2', 'COBOL level'
-];
+import { ColumnType, IncomingDataOfAvailableColumns, MainTableService } from '../../services/main-table.service';
 
 @Component({
   selector: 'app-main-table',
@@ -43,75 +19,59 @@ const SUPPORTLEVELS: string[] = [
 })
 export class MainTableComponent implements OnInit {
 
-  availableColumns: ColumnType[] = [
-    {
-      propertyName: 'customer',
-      value: 'Customer'
-    },
-    {
-      propertyName: 'project',
-      value: 'Project'
-    },
-    {
-      propertyName: 'country',
-      value: 'Country'
-    },
-    {
-      propertyName: 'supportLevel',
-      value: 'Support Level'
-    }
-  ];
+  availableColumns: ColumnType[];
   columnsPropertiesForRows: string[] = [];
-  daysOfTheWeek: ColumnType[] = [
-    {
-      propertyName: 'monday',
-      value: 'Monday'
-    },
-    {
-      propertyName: 'tuesday',
-      value: 'Tuesday'
-    },
-    {
-      propertyName: 'wednesday',
-      value: 'Wednesday'
-    },
-    {
-      propertyName: 'thursday',
-      value: 'Thursday'
-    },
-    {
-      propertyName: 'friday',
-      value: 'Friday'
-    },
-    {
-      propertyName: 'saturday',
-      value: 'Saturday'
-    },
-    {
-      propertyName: 'sunday',
-      value: 'Sunday'
-    }
-  ];
+  daysOfTheWeek: ColumnType[];
   dataSource: MatTableDataSource<IncomingDataOfAvailableColumns>;
   expandedElement: IncomingDataOfAvailableColumns | null;
+  isLoading: boolean;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  constructor() {
-    this.availableColumns = this.availableColumns.concat(this.daysOfTheWeek);
-    this.availableColumns.forEach(columnProperty => {
-      this.columnsPropertiesForRows.push(columnProperty.propertyName);
-    })
+  constructor(
+    private mainTableService: MainTableService
+  ) {
+    // this.availableColumns = this.availableColumns.concat(this.daysOfTheWeek);
+    // this.availableColumns.forEach(columnProperty => {
+    //   this.columnsPropertiesForRows.push(columnProperty.propertyName);
+    // })
 
     // Create 100 users
-    const randomTimeEntries = Array.from({length: 100}, () => createNewRandomTimeEntry());
+    // const randomTimeEntries = Array.from({length: 100}, () => createNewRandomTimeEntry());
 
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(randomTimeEntries);
+    // this.dataSource = new MatTableDataSource(randomTimeEntries);
   }
 
   ngOnInit() {
+    // this.isLoading = true;
+
+    this.mainTableService.getMainRows()
+      .subscribe(data => {
+        this.availableColumns = data;
+        this.availableColumns.forEach(columnProperty => {
+          this.columnsPropertiesForRows.push(columnProperty.propertyName);
+        })
+        console.log('availableColumns :', data);
+    });
+
+    this.mainTableService.getDaysOfTheWeek()
+      .subscribe(data => {
+        this.daysOfTheWeek = data;
+        console.log('daysOfTheWeek :', data);
+    });
+
+    this.mainTableService.getMainTableData()
+      .subscribe(data => {
+        this.dataSource = new MatTableDataSource(data);
+        console.log('dataSource :', data);
+    });
+
+    setTimeout(() => {
+      // this.isLoading = false;
+    }, 2000);
+
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -125,13 +85,4 @@ export class MainTableComponent implements OnInit {
     }
   }
 
-}
-
-function createNewRandomTimeEntry(): IncomingDataOfAvailableColumns {
-  return {
-    customer: CUSTOMERS[Math.round(Math.random() * (CUSTOMERS.length - 1))],
-    project: PROJECTS[Math.round(Math.random() * (PROJECTS.length - 1))],
-    country: COUNTRIES[Math.round(Math.random() * (COUNTRIES.length - 1))],
-    supportLevel: SUPPORTLEVELS[Math.round(Math.random() * (SUPPORTLEVELS.length - 1))]
-  };
 }
