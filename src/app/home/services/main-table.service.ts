@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
+import { ColumnType } from '../models/column-type';
 
 
 export interface IncomingDataOfAvailableColumns {
@@ -8,11 +9,6 @@ export interface IncomingDataOfAvailableColumns {
   project: string;
   country: string;
   supportLevel: string;
-}
-
-export interface ColumnType {
-  propertyName: string;
-  value: string;
 }
 
 @Injectable({
