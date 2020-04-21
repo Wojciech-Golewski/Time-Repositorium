@@ -1,4 +1,4 @@
-import { ColumnType } from './column-type';
+import { ColumnType } from './column-type.model';
 
 describe('ColumnType', () => {
   it('should create an instance', () => {

@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MainTableService } from '../../services/main-table.service';
-import { ColumnType } from '../../models/column-type';
+import { ColumnType } from '../../models/column-type.model';
 import { AvailableColumns } from '../../models/available-columns.model';
 
 @Component({

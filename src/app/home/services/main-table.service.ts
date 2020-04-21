@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { of } from 'rxjs';
-import { ColumnType } from '../models/column-type';
+import { ColumnType } from '../models/column-type.model';
 import { AvailableColumns } from '../models/available-columns.model';
 
 @Injectable({
