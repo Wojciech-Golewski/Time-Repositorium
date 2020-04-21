@@ -65,7 +65,7 @@ export class MainTableService {
     return of(Array.from({length: 100}, () => this.createNewRandomTimeEntry()));
   }
 
-  getMainRows(): Observable<ColumnType[]> {
+  getMainColumns(): Observable<ColumnType[]> {
     return of(this.availableColumns);
   }
 
