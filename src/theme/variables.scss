@@ -75,3 +75,13 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 }
+
+ion-content {
+  --ion-background-color:#e8e8e8;
+}
+
+.default-container-props {
+  margin: 15px 20px;
+  border-radius: 20px;
+  background-color: #ffffff;
+}
