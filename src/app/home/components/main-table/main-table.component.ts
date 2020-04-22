@@ -5,8 +5,8 @@ import { MatSort } from '@angular/material/sort';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MainTableService } from '../../services/main-table.service';
 import { ColumnType } from '../../models/column-type.model';
-import { AvailableColumns } from '../../models/available-columns.model';
 import { forkJoin } from 'rxjs';
+import { DataToTable } from '../../models/data-to-table.model';
 
 @Component({
   selector: 'app-main-table',
@@ -25,8 +25,8 @@ export class MainTableComponent implements OnInit {
   availableColumns: ColumnType[];
   columnsPropertiesForRows: string[] = [];
   daysOfTheWeek: ColumnType[];
-  dataSource: MatTableDataSource<AvailableColumns>;
-  expandedElement: AvailableColumns | null;
+  dataSource: MatTableDataSource<DataToTable>;
+  expandedElement: DataToTable | null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -36,38 +36,7 @@ export class MainTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.mainTableService.getMainColumns()
-      .subscribe(data => {
-        this.availableColumns = data;
-        this.availableColumns.forEach(columnProperty => {
-          this.columnsPropertiesForRows.push(columnProperty.propertyName);
-        })
-    });
-
-    this.mainTableService.getDaysOfTheWeek()
-      .subscribe(data => {
-        this.daysOfTheWeek = data;
-    });
-
-    this.mainTableService.getMainTableData()
-      .subscribe(data => {
-        this.dataSource = new MatTableDataSource(data);
-    });
-
-    const availableColumns = this.mainTableService.getMainColumns();
-    const daysOfTheWeek = this.mainTableService.getDaysOfTheWeek();
-    const mainData = this.mainTableService.getMainTableData();
-
-    forkJoin(
-      availableColumns,
-      daysOfTheWeek,
-      mainData
-    ).subscribe(result => {
-      console.log('result from forkJoin :', result);
-      // TODO: do a model for accumulated data and assign it properllu
-    })
-
+    this.getAllData();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -79,6 +48,25 @@ export class MainTableComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  private getAllData(): void {
+
+    forkJoin(
+      this.mainTableService.getMainColumns(),
+      this.mainTableService.getDaysOfTheWeek(),
+      this.mainTableService.getMainTableData()
+    ).subscribe((result: [ColumnType[], ColumnType[], DataToTable[]]) => {
+      
+      this.availableColumns = result[0].concat(result[1]);
+      this.availableColumns.forEach(columnProperty => {
+        this.columnsPropertiesForRows.push(columnProperty.propertyName);
+      });
+      this.dataSource = new MatTableDataSource(result[2]);
+    },
+    error => {
+      // TODO handle error mechanism missing
+    });
   }
 
 }
