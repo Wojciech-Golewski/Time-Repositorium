@@ -1,39 +1,69 @@
-<ion-grid>
-  <ion-row class="ion-align-items-start">
-    <ion-col>
-      <div>
-        Monday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Tuesday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Wednesday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Thursday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Friday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Saturday
-      </div>
-    </ion-col>
-    <ion-col>
-      <div>
-        Sunday
-      </div>
-    </ion-col>
-  </ion-row>
+<ion-grid id="main-table-container" class="default-container-props">
+  <mat-form-field>
+    <mat-label>Filter the results by typing</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" />
+  </mat-form-field>
+  <div>
+    <table
+      mat-table
+      matSort
+      [dataSource]="dataSource"
+      class="mat-elevation-z8"
+      multiTemplateDataRows
+    >
+      <ng-container
+        matColumnDef="{{ column.propertyName }}"
+        *ngFor="let column of availableColumns"
+      >
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+          {{ column.value }}
+        </th>
+        <td *matCellDef="let element" mat-cell>
+          {{ element[column.propertyName] }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [attr.colspan]="availableColumns.length"
+        >
+          <div
+            class="example-element-detail"
+            [@detailExpand]="
+              element == expandedElement ? 'expanded' : 'collapsed'
+            "
+          >
+            <div class="example-element-diagram">
+              <div class="example-element-position">{{ element.customer }}</div>
+              <div class="example-element-name">{{ element.country }}</div>
+              <div class="example-element-weight">{{
+                element.supportLevel
+              }}</div>
+            </div>
+            <div class="example-element-description">
+              {{ element.project }}
+              <span class="example-element-description-attribution">
+                -- Wikipedia
+              </span>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsPropertiesForRows"></tr>
+      <tr
+        *matRowDef="let element; columns: columnsPropertiesForRows"
+        mat-row
+        class="example-element-row"
+        [class.example-expanded-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: ['expandedDetail']"
+        mat-row
+        class="example-detail-row"
+      ></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
 </ion-grid>
