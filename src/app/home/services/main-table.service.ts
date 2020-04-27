@@ -4,78 +4,85 @@ import { of } from 'rxjs';
 import { ColumnType } from '../models/column-type.model';
 import { DataToTable } from '../models/data-to-table.model';
 
-const CUSTOMERS: string[] = [
-  'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
-];
+const CUSTOMERS: string[] = ['IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'];
 const PROJECTS: string[] = [
-  'Virtual Reactor', 'Tokamak', 'Staropolis-5', 'Model 3', 'Quantum Power ZX10'
+  'Virtual Reactor',
+  'Tokamak',
+  'Staropolis-5',
+  'Model 3',
+  'Quantum Power ZX10',
 ];
 const COUNTRIES: string[] = [
-  'Uganda', 'Wakanda', 'Yemen', 'Oman', 'Chile', 'Iceland', 'Greenland'
+  'Uganda',
+  'Wakanda',
+  'Yemen',
+  'Oman',
+  'Chile',
+  'Iceland',
+  'Greenland',
 ];
-const SUPPORTLEVELS: string[] = [
-  'Level 1', 'Level 2', 'COBOL level'
-];
+const SUPPORTLEVELS: string[] = ['Level 1', 'Level 2', 'COBOL level'];
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MainTableService {
-
   availableColumns: ColumnType[] = [
     {
       propertyName: 'customer',
-      value: 'Customer'
+      value: 'Customer',
     },
     {
       propertyName: 'project',
-      value: 'Project'
+      value: 'Project',
     },
     {
       propertyName: 'country',
-      value: 'Country'
+      value: 'Country',
     },
     {
       propertyName: 'supportLevel',
-      value: 'Support Level'
-    }
+      value: 'Support Level',
+    },
   ];
 
   daysOfTheWeek: ColumnType[] = [
     {
       propertyName: 'monday',
-      value: 'Monday'
+      value: 'Monday',
     },
     {
       propertyName: 'tuesday',
-      value: 'Tuesday'
+      value: 'Tuesday',
     },
     {
       propertyName: 'wednesday',
-      value: 'Wednesday'
+      value: 'Wednesday',
     },
     {
       propertyName: 'thursday',
-      value: 'Thursday'
+      value: 'Thursday',
     },
     {
       propertyName: 'friday',
-      value: 'Friday'
+      value: 'Friday',
     },
     {
       propertyName: 'saturday',
-      value: 'Saturday'
+      value: 'Saturday',
     },
     {
       propertyName: 'sunday',
-      value: 'Sunday'
-    }
+      value: 'Sunday',
+    },
   ];
 
-  constructor() { }
+  constructor() {}
 
   getMainTableData(): Observable<DataToTable[]> {
-    return of(Array.from({length: 100}, () => this.createNewRandomTimeEntry()));
+    return of(
+      Array.from({ length: 100 }, () => this.createNewRandomTimeEntry())
+    );
   }
 
   getMainColumns(): Observable<ColumnType[]> {
@@ -92,8 +99,8 @@ export class MainTableService {
       customer: CUSTOMERS[Math.round(Math.random() * (CUSTOMERS.length - 1))],
       project: PROJECTS[Math.round(Math.random() * (PROJECTS.length - 1))],
       country: COUNTRIES[Math.round(Math.random() * (COUNTRIES.length - 1))],
-      supportLevel: SUPPORTLEVELS[Math.round(Math.random() * (SUPPORTLEVELS.length - 1))]
+      supportLevel:
+        SUPPORTLEVELS[Math.round(Math.random() * (SUPPORTLEVELS.length - 1))],
     };
   }
-
 }

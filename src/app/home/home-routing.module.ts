@@ -11,18 +11,18 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'main-table',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'main-table',
-        component: MainTableComponent
-      }
-    ]
-  }
+        component: MainTableComponent,
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}

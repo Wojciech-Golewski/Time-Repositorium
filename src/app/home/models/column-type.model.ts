@@ -1,4 +1,4 @@
 export class ColumnType {
-    propertyName: string;
-    value: string;
+  propertyName: string;
+  value: string;
 }
