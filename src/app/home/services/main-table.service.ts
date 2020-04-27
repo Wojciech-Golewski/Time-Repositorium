@@ -4,6 +4,19 @@ import { of } from 'rxjs';
 import { ColumnType } from '../models/column-type.model';
 import { DataToTable } from '../models/data-to-table.model';
 
+const CUSTOMERS: string[] = [
+  'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
+];
+const PROJECTS: string[] = [
+  'Virtual Reactor', 'Tokamak', 'Staropolis-5', 'Model 3', 'Quantum Power ZX10'
+];
+const COUNTRIES: string[] = [
+  'Uganda', 'Wakanda', 'Yemen', 'Oman', 'Chile', 'Iceland', 'Greenland'
+];
+const SUPPORTLEVELS: string[] = [
+  'Level 1', 'Level 2', 'COBOL level'
+];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -73,6 +86,7 @@ export class MainTableService {
     return of(this.daysOfTheWeek);
   }
 
+  // this is a random data generator
   createNewRandomTimeEntry(): DataToTable {
     return {
       customer: CUSTOMERS[Math.round(Math.random() * (CUSTOMERS.length - 1))],
@@ -83,16 +97,3 @@ export class MainTableService {
   }
 
 }
-
-const CUSTOMERS: string[] = [
-  'IBM', 'Microsoft', 'Space-X', 'Tesla', 'ITER'
-];
-const PROJECTS: string[] = [
-  'Virtual Reactor', 'Tokamak', 'Staropolis-5', 'Model 3', 'Quantum Power ZX10'
-];
-const COUNTRIES: string[] = [
-  'Uganda', 'Wakanda', 'Yemen', 'Oman', 'Chile', 'Iceland', 'Greenland'
-];
-const SUPPORTLEVELS: string[] = [
-  'Level 1', 'Level 2', 'COBOL level'
-];
